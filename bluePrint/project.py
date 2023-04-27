@@ -6,6 +6,7 @@ from exts import db
 project_bp = Blueprint('project', __name__)
 CORS(project_bp)
 
+
 @project_bp.route('/', methods=['POST'])
 def create_project():
     name = request.json['name']
@@ -14,7 +15,7 @@ def create_project():
     try:
         db.session.add(project)
         db.session.commit()
-        return 'success'
+        return jsonify({'status': 200, 'message': 'Project add successfully!'})
     except:
         db.session.rollback()
         return 'error'
@@ -67,7 +68,7 @@ def delete_project(project_id):
     try:
         db.session.delete(project)
         db.session.commit()
-        return jsonify({'message': 'Project deleted successfully!'})
+        return jsonify({'status': 200, 'message': 'Project deleted successfully!'})
     except:
         db.session.rollback()
         return jsonify({'message': 'Something went wrong!'})

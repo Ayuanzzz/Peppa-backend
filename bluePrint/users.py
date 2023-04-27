@@ -23,11 +23,11 @@ def create_user():
 
 @users_bp.route('/', methods=['GET'])
 def list_users():
-    users = User.query.all()
+    users = User.query.filter_by(role='user', employed=1).all()
 
     output = [user.to_dict() for user in users]
 
-    return jsonify({'users': output})
+    return jsonify({'status':200,'users': output})
 
 
 @users_bp.route('/<int:user_id>', methods=['GET'])
@@ -47,28 +47,12 @@ def update_user(user_id):
     if not user:
         return jsonify({'message': 'User not found!'})
 
-    user.name = request.json.get('name', user.name)
-    # user.password = request.json.get('password', user.password)
+    user.employed = 0
 
     try:
         db.session.commit()
-        return jsonify({'message': 'User updated successfully!'})
+        return jsonify({'status':200,'message': 'User updated successfully!'})
     except:
         db.session.rollback()
         return jsonify({'message': 'Something went wrong!'})
 
-
-@users_bp.route('/<int:user_id>', methods=['DELETE'])
-def delete_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
-
-    if not user:
-        return jsonify({'message': 'User not found!'})
-
-    try:
-        db.session.delete(user)
-        db.session.commit()
-        return jsonify({'message': 'User deleted successfully!'})
-    except:
-        db.session.rollback()
-        return jsonify({'message': 'Something went wrong!'})
