@@ -21,13 +21,23 @@ def create_project():
         return 'error'
 
 
-@project_bp.route('/', methods=['GET'])
-def list_projects():
-    projects = Project.query.all()
+@project_bp.route('/page/<int:page_id>', methods=['GET'])
+def list_projects(page_id):
+    per_page = 10
+    offset = (page_id - 1) * per_page
+    count = db.session.query(Project).count()
+    projects = db.session.query(Project).order_by(Project.timestamp.desc()). \
+        offset(offset).limit(per_page).all()
 
-    output = [project.to_dict() for project in projects]
+    output = [{'id': pt.id,
+               'name': pt.name,
+               'num': pt.num,
+               'timestamp': pt.timestamp.strftime('%Y-%m-%d')
+               }
+              for pt in projects]
 
-    return jsonify({'projects': output})
+
+    return jsonify({'projects': output, 'count': count})
 
 
 @project_bp.route('/<int:project_id>', methods=['GET'])

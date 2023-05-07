@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Peppa.iml" filepath="$PROJECT_DIR$/.idea/Peppa.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Peppa-backend.iml" filepath="$PROJECT_DIR$/.idea/Peppa-backend.iml" />
     </modules>
   </component>
 </project>

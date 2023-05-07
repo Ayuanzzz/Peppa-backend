@@ -9,7 +9,7 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), default='user', nullable=False)
     employed = db.Column(db.Integer, default=1)
-    timestamp = db.Column(db.DateTime, default=datetime.now().strftime('%Y-%m-%d'))
+    timestamp = db.Column(db.DateTime, default=datetime.now())
 
     def to_dict(self):
         return {'id': self.id, 'name': self.name, 'role': self.role, 'timestamp': self.timestamp}
@@ -19,7 +19,7 @@ class Project(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(255))
     num = db.Column(db.Integer,default=0)
-    timestamp = db.Column(db.DateTime, default=datetime.now().strftime('%Y-%m-%d'))
+    timestamp = db.Column(db.DateTime, default=datetime.now())
     userprojects =db.relationship('UserProject',backref='project')
 
     def to_dict(self):
@@ -32,7 +32,7 @@ class UserProject(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('project.id', ondelete='CASCADE'))
     num = db.Column(db.Integer, nullable=False)
     level = db.Column(db.Integer, nullable=False)
-    status =db.Column(db.Boolean, default=True)
+    status =db.Column(db.Boolean, default=False)
     remark=db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, default=datetime.now())
 
